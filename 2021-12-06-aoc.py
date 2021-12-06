@@ -20,13 +20,15 @@ def get_new_dict(old_dict):
             new_dict[i-1] += old_dict[i]
     return new_dict
 
-def challenge():
+def challenge(n):
     data = get_data(day=6)
     data = [int(dd) for dd in data.split(",")]
     data_ = {d: data.count(d) for d in range(9)}
-    print(data_)
-    for i in range(256):
+    for i in range(n):
         data_ = get_new_dict(data_)
     print(sum(data_.values()))
 
-challenge()
+# 1
+challenge(80)
+# 2
+challenge(256)
