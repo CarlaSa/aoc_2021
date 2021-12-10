@@ -1,8 +1,5 @@
 from aocd import get_data
-import numpy as np
-from scipy.ndimage.measurements import label
 import re
-import random
 
 
 def reduce_line(old_string):
@@ -44,10 +41,10 @@ def challenge():
             m, d = reduce_line(d)
         t, s = contains_corrupted(d)
         if t:
-            # corrupted, find first
+            # corrupted, -> find first
             score_1 += score_dict_1[s]
         else:
-            # incomplete, complete
+            # incomplete, -> complete
             if d == "":
                 continue
             score_2.append(get_score_2(d))
@@ -57,11 +54,5 @@ def challenge():
 
 
 if __name__ == "__main__":
-    # s = "[({(<(())[]>[[{[]{<()<>>"
-    # m = True
-    # while(m):
-    #     m, s = reduce_line(s)
-    # print(s)
-    # print(get_score_2(s))
     challenge()
     
