@@ -1,7 +1,5 @@
 from aocd import get_data
-import numpy as np
 import re
-import random
 
 def fold(dots, axis, num):
     num = int(num)
