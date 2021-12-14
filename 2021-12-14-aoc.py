@@ -1,6 +1,6 @@
 from aocd import get_data
 import string
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 def grow(input, instructions):
     output = ""
@@ -26,26 +26,21 @@ def challenge():
     instructions = {(a := d.split(" -> "))[0]: a[1]  for d in instructions.split("\n")}
 
     input = inp
-    for i in range(5):
+    for i in range(10):
         input = grow(input, instructions)
-        counts = {i: input.count(i) for i in set(list(input))}
-        print(counts)
+    counts = {i: input.count(i) for i in set(list(input))}
     print("Task 1")
     print(max(counts.values()) - min(counts.values()))
 
-    input = {a+b: inp.count(a+b) for a in string.ascii_uppercase for b in string.ascii_uppercase}
-    for i in range(5):
+    input = Counter(a+b for a, b in zip(inp, inp[1:])) 
+    for i in range(40):
         input = grow_not_exp(input, instructions)
-        counts = defaultdict(int)
-        for i,v in input.items():
-            counts[i[0]] += v
-            counts[i[1]] += v
-        counts[inp[0]] += 1
-        counts[inp[-1]] += 1
-        print(counts.items())
+    counts = defaultdict(int)
+    for i,v in input.items():
+        counts[i[0]] += v
+    counts[inp[-1]] += 1
     print("Task 2")
-    print(max(counts.values())/2 - min(counts.values())/2)
+    print(max(counts.values()) - min(counts.values()))
     
 if __name__ == "__main__":
     challenge()
-    
