@@ -1,8 +1,8 @@
 from aocd import get_data
-import string
-from collections import defaultdict, Counter
 import numpy as np
 from queue import PriorityQueue
+import time
+start_time = time.time()
 
 
 class Graph():
@@ -29,12 +29,10 @@ class Graph():
                 if is_neighbor(i,j):
                     self.adj_list[i].append([j, flatten_data[j]])
 
-    def dijkstra(self, start):
+    def dijkstra(self, start, stop):
         visited = np.zeros((self.v))
 
-        assert not visited[5] == True
-
-        distances = [np.inf  for _ in range(self.v)]
+        distances = [np.inf for _ in range(self.v)]
         distances[start] = 0
 
         pq = PriorityQueue()
@@ -43,6 +41,8 @@ class Graph():
         while not pq.empty():
             (d, v) = pq.get()
             visited[v] = 1
+            if v == stop:
+                break
             for [n_vert, n_dist] in self.adj_list[v]:
                 if not visited[n_vert]:
                     old_dist = distances[n_vert] 
@@ -54,12 +54,10 @@ class Graph():
 
 def build_data(data):
     data_block = np.array(data)
-
     new_data = np.block([
         [(data_block + i + j - 1) % 9 + 1 for i in range(5)]
         for j in range(5)
     ])
-    
     return new_data
 
 
@@ -69,19 +67,18 @@ def challenge():
     #data = "1163751742\n1381373672\n2136511328\n3694931569\n7463417111\n1319128137\n1359912421\n3125421639\n1293138521\n2311944581"
     data = [[int(dd) for dd in d] for d in data.split("\n")]
     G = Graph(data)
-    dist = G.dijkstra(0)
+    dist = G.dijkstra(0, 9999)
     print("Task 1")
     print(dist[-1])
 
     data = build_data(data)
     G = Graph(data)
-    dist = G.dijkstra(0)
+    dist = G.dijkstra(0, 10**4 * 25 -1)
     print("Task 2")
     print(dist[-1])
 
-
-
 if __name__ == "__main__":
     challenge()
-    #test()
+
+print("--- %s seconds ---" % (time.time() - start_time))
 
