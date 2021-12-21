@@ -1,9 +1,6 @@
-from itertools import product
 from aocd import get_data
 import numpy as np
-from queue import PriorityQueue
-import re
-import collections
+
 
 def unzip(data):
     d = {
@@ -41,7 +38,7 @@ def decode_structure(s):
         operation = {
             "000": np.sum, "001": np.prod, "010": min, "011": max, 
             "101": lambda x: 1 if x[0] > x[1] else 0,
-            "110": lambda x: 0 if x[0] > x[1] else 1,
+            "110": lambda x: 1 if x[0] < x[1] else 0,
             "111": lambda x: 1 if x[0] == x[1] else 0,
         }[type_id]
         v_ids = []
@@ -77,8 +74,8 @@ def decode_structure(s):
 
 def challenge():
     data = get_data(day = 16)
-    with open('input (1).txt') as f:
-        data = f.readlines()[0].split("\n")[0]
+    # with open('input (1).txt') as f:
+    #     data = f.readlines()[0].split("\n")[0]
     #data = "9C0141080250320F1802104A08"
     #data = "04005AC33890"
     #data = "D2FE28"
